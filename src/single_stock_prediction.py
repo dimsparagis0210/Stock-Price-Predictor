@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 # Exporting a new dataset for a single stock
@@ -28,8 +29,6 @@ X[['Open', 'High', 'Low']] = price_scaler.fit_transform(X[['Open', 'High', 'Low'
 vol_scaler = StandardScaler()
 X[['Volume']] = vol_scaler.fit_transform(X[['Volume']])
 
-X[['Open', 'High', 'Low']] = price_scaler.inverse_transform(X[['Open', 'High', 'Low']])
-print(X)
 # Creating a polynomial Vector with every feature
 from sklearn.preprocessing import PolynomialFeatures
 poly_regressor = PolynomialFeatures(degree = 3)
@@ -40,9 +39,9 @@ lin_regressor = LinearRegression()
 lin_regressor.fit(X_poly, y)
 
 # Predicting price for a day of the month
-prices = price_scaler.transform([[227, 229, 225]]).reshape(-1, 1)
-volume = vol_scaler.transform([[200000]]).reshape(-1, 1)
-print(prices)
-print(volume)
-# prediction = lin_regressor.predict(poly_regressor.fit_transform([prices, volume]))
-# print(prediction)
+prices = price_scaler.transform([[222, 229, 215]])
+volume = vol_scaler.transform([[200000]])
+combined_array = np.hstack((prices, volume))
+
+prediction = lin_regressor.predict(poly_regressor.fit_transform(combined_array))
+print(prediction)
