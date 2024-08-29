@@ -38,7 +38,7 @@ from sklearn.linear_model import LinearRegression
 lin_regressor = LinearRegression()
 lin_regressor.fit(X_poly, y_train)
 
-# Predicting price for a day of the month
+# Predicting price
 prediction = lin_regressor.predict(poly_regressor.fit_transform(
     price_scaler.transform([[227, 229, 225, 200000]])))
 print(prediction)
