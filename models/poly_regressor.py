@@ -1,5 +1,9 @@
 class PolyRegressor:
     def __init__(self, ticker, df):
+        self.y_test = None
+        self.y_train = None
+        self.X_test = None
+        self.X_train = None
         self.y = None
         self.X = None
         self.sc = None
@@ -38,6 +42,10 @@ class PolyRegressor:
         self.sc = sc
         self.X = X
         self.y = y
+        self.X_train = X_train
+        self.X_test = X_test
+        self.y_train = y_train
+        self.y_test = y_test
 
     def predict(self):
         # Required Data for prediction
@@ -61,4 +69,3 @@ class PolyRegressor:
         accuracies = cross_val_score(estimator = self.lin_reg, X = self.X, y = self.y, cv = 10)
         print("Accuracy: {:.2f} %".format(accuracies.mean()*100))
         print("Standard Deviation: {:.2f} %".format(accuracies.std()*100))
-
