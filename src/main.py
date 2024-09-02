@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+from models.ann import Ann
 from models.poly_regressor import PolyRegressor
 # Welcoming Messages
 print('******* Stock Price Predictor *******')
@@ -9,12 +10,13 @@ print('******* Stock Price Predictor *******')
 stock_data = []
 while len(stock_data) == 0:
     print('Choose a stock')
-    selected_ticker = input('Enter the stock ticker(e.g APPL): ')
+    selected_ticker = input('Enter the stock ticker(e.g AAPL): ')
 
     # Extracting the data
     df = pd.read_csv('../data/World-Stock-Prices-Dataset.csv', sep = ";")
     stock_data = df[df['Ticker'] == selected_ticker]
-    stock_data.to_csv('../data/{Ticker}_Daily_Prices.csv'.format(Ticker = selected_ticker), index = False)
+    if (len(stock_data) > 0):
+        stock_data.to_csv('../data/{Ticker}_Daily_Prices.csv'.format(Ticker = selected_ticker), index = False)
     # Ticker not found
     if len(stock_data) == 0:
         print('Ticker not found. Please enter a valid ticker')
@@ -22,7 +24,7 @@ while len(stock_data) == 0:
 # Model selection
 print('Choose model:')
 print('1) Polynomial Regressor')
-print('2) Recurrent Neural Network')
+print('2) Artificial Neural Network')
 model = input('Your choice(the number): ')
 
 while model not in ['1', '2']:
@@ -36,5 +38,7 @@ if model == '1':
     print('******* Stats *******')
     regressor.showPerformance()
 elif model == '2':
-    print('RNN model')
+    ann = Ann(selected_ticker, stock_data)
+    ann.trainModel()
+    ann.predict()
 
